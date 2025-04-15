@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Boot Strap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="css/all.min.css" />
+    <!-- Main Style -->
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- Swiper -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <!-- Wow Js -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <title>Prime Nest</title>
+  </head>
+
+  <body id="log-reg">
+    <!-- Navbar -->
+    <div class="header">
+      <div class="container">
+        <nav
+          class="navbar navbar-expand-lg d-flex justify-content-between align-items-center"
+        >
+          <!-- Logo -->
+          <div class="logo d-flex align-items-center gap-2">
+            <i class="fa-regular fa-circle-user fa-2x"></i>
+            <span class="welcome fw-bold">سجل الدخول</span>
+          </div>
+          <!-- Menu Toggle -->
+          <button id="menu-toggle" class="navbar-toggler">
+            <i class="fa-solid fa-arrow-down"></i>
+          </button>
+          <!-- Links -->
+          <div id="nav-menu" class="navbar-nav d-none">
+            <li class="nav-item"><a class="nav-link" href="#">الرئيسية</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">من نحن</a></li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">العقارات المميزة</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="#">الأعضاء</a></li>
+          </div>
+          <!-- Prime Nest -->
+          <div class="prime fw-bold">Prime Nest</div>
+        </nav>
+
+        <!-- Register & Login -->
+        <section class="login-register">
+          <div class="container" id="container">
+            <div class="form-container sign-in">
+              <form>
+                <h2>تسجيل الدخول</h2>
+                <ul class="social">
+                  <li>
+                    <a href="#" class="facebook"
+                      ><i class="fab fa-facebook-f"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a href="#" class="google"
+                      ><i class="fa-brands fa-google"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a href="#" class="twitter">
+                      <i class="fab fa-twitter"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a href="#" class="youtube"
+                      ><i class="fab fa-youtube"></i
+                    ></a>
+                  </li>
+                </ul>
+                <p>أو أستخدم البريد الألكتروني للتسجيل</p>
+
+                <input type="email" placeholder="البريد الألكتروني *" />
+                <input type="password" placeholder="كلمه المرور *" />
+
+                <a href="#" class="forget">هل نسيت كلمه السر .؟</a>
+                <button class="create">تسجيل الدخول</button>
+              </form>
+            </div>
+
+            <div class="form-container sign-up">
+              <form>
+                <h2>إنشاء حساب</h2>
+                <ul class="social">
+                  <li>
+                    <a href="#" class="facebook"
+                      ><i class="fab fa-facebook-f"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a href="#" class="google"
+                      ><i class="fa-brands fa-google"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a href="#" class="twitter">
+                      <i class="fab fa-twitter"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a href="#" class="youtube"
+                      ><i class="fab fa-youtube"></i
+                    ></a>
+                  </li>
+                </ul>
+                <p>أو أستخدم البريد الألكتروني للتسجيل</p>
+
+                <input type="text" placeholder="الأسم رباعي *" />
+                <input type="email" placeholder="البريد الألكتروني *" />
+                <input type="password" placeholder="كلمه المرور *" />
+
+                <a href="#" class="forget">هل نسيت كلمه السر .؟</a>
+                <button class="create">إنشاء الحساب</button>
+              </form>
+            </div>
+
+            <div class="toggle-container">
+              <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                  <h3>مرحبا بك !</h3>
+                  <p>قم بتسجيل الدخول باستخدام بياناتك الشخصيه</p>
+                  <button class="hidden" id="login">تسجيل الدخول</button>
+                </div>
+
+                <div class="toggle-panel toggle-right">
+                  <h3>أهلا بك !</h3>
+                  <p>قم بتسجيل الدخول باستخدام بياناتك الشخصيه</p>
+                  <button class="hidden" id="register">إنشاء حساب</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer position-relative overflow-hidden py-5">
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col-lg-6 col-md-8 col-sm-12 footer-content">
+            <div class="contact-info mb-4">
+              <h2 class="text-white fs-5">هل لديك أي استفسار؟</h2>
+              <p class="text-light-gray small">
+                إذا كان لديك أي استفسارات يمكنك التواصل معنا مباشرة على إحدى
+                أرقامنا أو يمكنك ملء بياناتك وسيقوم أحد مسؤولي فريق برايم نيست
+                بالتواصل معك.
+              </p>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col-6">
+                <div class="contact-details">
+                  <p class="text-light-gray small mb-1">البريد الإلكتروني</p>
+                  <h3 class="text-white fs-6">pallot@gmail.com</h3>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="contact-details">
+                  <p class="text-light-gray small mb-1">رقم الهاتف</p>
+                  <h3 class="text-white fs-6">+20123456789</h3>
+                </div>
+              </div>
+            </div>
+
+            <div class="input-group mb-4 footer-input">
+              <input
+                type="text"
+                class="form-control rounded-end"
+                placeholder="ادخل بريدك الإلكتروني"
+                name="email"
+                autocomplete="on"
+              />
+              <button class="btn btn-custom rounded-start" type="button">
+                ارسال
+              </button>
+            </div>
+
+            <div class="quick-links">
+              <h3 class="text-white fs-6 mb-2">روابط سريعة</h3>
+              <ul class="list-unstyled">
+                <li>
+                  <a href="#" class="text-white small text-decoration-none"
+                    >الرئيسية</a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="text-white small text-decoration-none"
+                    >عقارات</a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="text-white small text-decoration-none"
+                    >من نحن</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-4 d-none d-md-block footer-image">
+            <img
+              src="./img/footer-img.png"
+              alt="footer-img"
+              class="img-fluid"
+            />
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- Font Awesome -->
+    <script src="js/all.min.js"></script>
+    <!-- Swiper -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- Main Script -->
+    <script src="js/main.js"></script>
+    <!-- Wow Js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <script>
+      new WOW().init();
+    </script>
+  </body>
+</html>

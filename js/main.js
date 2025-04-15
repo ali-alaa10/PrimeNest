@@ -11,7 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// search form
+if(document.body.id === "home"){
+  // search form
 document.addEventListener("DOMContentLoaded", function () {
   const rentBtn = document.getElementById("rentBtn");
   const saleBtn = document.getElementById("saleBtn");
@@ -187,3 +188,18 @@ var rate = new Swiper("#rate", {
     1024: { slidesPerView: 3 },
   },
 });
+}
+
+if (document.body.id === "log-reg") {
+  const container = document.getElementById("container");
+  const registerBtn = document.getElementById("register");
+  const loginBtn = document.getElementById("login");
+  
+  registerBtn.addEventListener("click", () => {
+    container.classList.add("active");
+  });
+  
+  loginBtn.addEventListener("click", () => {
+    container.classList.remove("active");
+  });
+}
