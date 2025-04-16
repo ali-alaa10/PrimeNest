@@ -8,19 +8,20 @@ document.addEventListener("DOMContentLoaded", function () {
     navMenu.classList.toggle("d-none");
     navMenu.classList.toggle("d-flex");
     navBar.classList.toggle("navbar-brr");
+    menuToggle.classList.toggle("rotate");
   });
 });
 
-if(document.body.id === "home"){
+if (document.body.id === "home") {
   // search form
-document.addEventListener("DOMContentLoaded", function () {
-  const rentBtn = document.getElementById("rentBtn");
-  const saleBtn = document.getElementById("saleBtn");
-  const searchForm = document.getElementById("search-form");
+  document.addEventListener("DOMContentLoaded", function () {
+    const rentBtn = document.getElementById("rentBtn");
+    const saleBtn = document.getElementById("saleBtn");
+    const searchForm = document.getElementById("search-form");
 
-  function updateForm(type) {
-    if (type === "rent") {
-      searchForm.innerHTML = `
+    function updateForm(type) {
+      if (type === "rent") {
+        searchForm.innerHTML = `
         <div class="row g-3">
         <div class="col-md-6">
             <select name="city" class="form-select">
@@ -68,8 +69,8 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
     </div>
           `;
-    } else {
-      searchForm.innerHTML = `
+      } else {
+        searchForm.innerHTML = `
   <div class="row g-3">
      <div class="col-md-6">
       <select name="city" class="form-select">
@@ -122,83 +123,84 @@ document.addEventListener("DOMContentLoaded", function () {
           <button type="submit" class="btn search-btn">بحث</button>
       </div>
   </div>`;
+      }
     }
-  }
 
-  rentBtn.addEventListener("click", function () {
-    rentBtn.classList.add("active");
-    rentBtn.classList.remove("inactive");
-    saleBtn.classList.add("inactive");
-    saleBtn.classList.remove("active");
+    rentBtn.addEventListener("click", function () {
+      rentBtn.classList.add("active");
+      rentBtn.classList.remove("inactive");
+      saleBtn.classList.add("inactive");
+      saleBtn.classList.remove("active");
+      updateForm("rent");
+    });
+
+    saleBtn.addEventListener("click", function () {
+      saleBtn.classList.add("active");
+      saleBtn.classList.remove("inactive");
+      rentBtn.classList.add("inactive");
+      rentBtn.classList.remove("active");
+      updateForm("sale");
+    });
+
     updateForm("rent");
   });
 
-  saleBtn.addEventListener("click", function () {
-    saleBtn.classList.add("active");
-    saleBtn.classList.remove("inactive");
-    rentBtn.classList.add("inactive");
-    rentBtn.classList.remove("active");
-    updateForm("sale");
+  // Featured Properties
+  const buttons = document.querySelectorAll(".btn button");
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      buttons.forEach((btn) => btn.classList.remove("active"));
+      button.classList.add("active");
+    });
   });
 
-  updateForm("rent");
-});
-
-// Featured Properties
-const buttons = document.querySelectorAll(".btn button");
-
-buttons.forEach((button) => {
-  button.addEventListener("click", () => {
-    buttons.forEach((btn) => btn.classList.remove("active"));
-    button.classList.add("active");
+  // Find Nest
+  var findNest = new Swiper("#findNest", {
+    loop: true,
+    slidesPerView: 1,
+    spaceBetween: 20,
+    breakpoints: {
+      768: { slidesPerView: 2 },
+      1024: { slidesPerView: 3 },
+    },
   });
-});
 
-// Find Nest
-var findNest = new Swiper("#findNest", {
-  loop: true,
-  slidesPerView: 1,
-  spaceBetween: 20,
-  breakpoints: {
-    768: { slidesPerView: 2 },
-    1024: { slidesPerView: 3 },
-  },
-});
+  // Company
+  var company = new Swiper("#company", {
+    loop: true,
+    slidesPerView: 2,
+    spaceBetween: 20,
+    breakpoints: {
+      576: { slidesPerView: 2 },
+      768: { slidesPerView: 3 },
+      1024: { slidesPerView: 6 },
+    },
+  });
 
-// Company
-var company = new Swiper("#company", {
-  loop: true,
-  slidesPerView: 2,
-  spaceBetween: 20,
-  breakpoints: {
-    576: { slidesPerView: 2 },
-    768: { slidesPerView: 3 },
-    1024: { slidesPerView: 6 },
-  },
-});
-
-// Rate
-var rate = new Swiper("#rate", {
-  loop: true,
-  slidesPerView: 1,
-  spaceBetween: 20,
-  breakpoints: {
-    576: { slidesPerView: 1 },
-    768: { slidesPerView: 2 },
-    1024: { slidesPerView: 3 },
-  },
-});
+  // Rate
+  var rate = new Swiper("#rate", {
+    loop: true,
+    slidesPerView: 1,
+    spaceBetween: 20,
+    breakpoints: {
+      576: { slidesPerView: 1 },
+      768: { slidesPerView: 2 },
+      1024: { slidesPerView: 3 },
+    },
+  });
 }
 
+// Register & Login
 if (document.body.id === "log-reg") {
   const container = document.getElementById("container");
   const registerBtn = document.getElementById("register");
   const loginBtn = document.getElementById("login");
-  
+
   registerBtn.addEventListener("click", () => {
     container.classList.add("active");
   });
-  
+
   loginBtn.addEventListener("click", () => {
     container.classList.remove("active");
   });
