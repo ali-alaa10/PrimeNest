@@ -191,12 +191,25 @@ if (document.body.id === "home") {
   });
 }
 
+// API
+
+const API_BASE_URL = "https://primenest.azurewebsites.net/api";
+
 // Register & Login
 if (document.body.id === "log-reg") {
+  // Toggle
   const container = document.getElementById("container");
   const registerBtn = document.getElementById("register");
   const loginBtn = document.getElementById("login");
+  const forgotPasswordLink = document.getElementById("forgot-password-link");
+  const forgotPasswordLinkSignup = document.getElementById(
+    "forgot-password-link-signup"
+  );
+  const backToLogin = document.getElementById("back-to-login");
+  const loginForm = document.querySelector(".sign-in");
+  const forgotPasswordForm = document.getElementById("forgot-password-form");
 
+  // Toggle between login and register forms
   registerBtn.addEventListener("click", () => {
     container.classList.add("active");
   });
@@ -204,4 +217,194 @@ if (document.body.id === "log-reg") {
   loginBtn.addEventListener("click", () => {
     container.classList.remove("active");
   });
+
+  // Show forgot password form
+  forgotPasswordLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    loginForm.style.display = "none";
+    forgotPasswordForm.style.display = "block";
+  });
+
+  if (forgotPasswordLinkSignup) {
+    forgotPasswordLinkSignup.addEventListener("click", (e) => {
+      e.preventDefault();
+      container.classList.remove("active");
+      loginForm.style.display = "none";
+      forgotPasswordForm.style.display = "block";
+    });
+  }
+
+  // Back to login
+  backToLogin.addEventListener("click", (e) => {
+    e.preventDefault();
+    forgotPasswordForm.style.display = "none";
+    loginForm.style.display = "block";
+  });
+
+  // Handle login form submission
+  document
+    .getElementById("login-form")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/Authenticate/Login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+          localStorage.setItem("token", data.token);
+          Swal.fire({
+            text: "تم تسجيل الدخول بنجاح",
+            icon: "success",
+          });
+          window.location.href = "index.html";
+        } else {
+          let errorMessage =
+            data.message || "خطأ في تسجيل الدخول، تحقق من البيانات";
+          if (data.errors) {
+            errorMessage +=
+              "\nتفاصيل الأخطاء:\n" + Object.values(data.errors).join("\n");
+          }
+          Swal.fire({
+            icon: "error",
+            title: "خطأ",
+            text: errorMessage,
+          });
+        }
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "خطأ",
+          text: "حدث خطأ، حاول مرة أخرى",
+        });
+        console.error("Error:", error);
+      }
+    });
+
+  // Handle register form submission
+  document
+    .getElementById("register-form")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("register-name").value;
+      const email = document.getElementById("register-email").value;
+      const password = document.getElementById("register-password").value;
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/Authenticate/Register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, password }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+          Swal.fire({
+            text: "تم إنشاء الحساب بنجاح! سجل الدخول الآن",
+            icon: "success",
+          });
+          container.classList.remove("active");
+        } else {
+          let errorMessage =
+            data.message || "خطأ في إنشاء الحساب، تحقق من البيانات";
+          if (data.errors) {
+            errorMessage +=
+              "\nتفاصيل الأخطاء:\n" + Object.values(data.errors).join("\n");
+          }
+          Swal.fire({
+            icon: "error",
+            title: "خطأ",
+            text: errorMessage,
+          });
+        }
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "خطأ",
+          text: "حدث خطأ، حاول مرة أخرى",
+        });
+        console.error("Error:", error);
+      }
+    });
+
+  // Handle forgot password form submission
+  document
+    .getElementById("reset-password-form")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("reset-email").value;
+
+      try {
+        const response = await fetch(
+          `${API_BASE_URL}/Authenticate/ForgetPassword`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email }),
+          }
+        );
+
+        // Read the response body as text once
+        const bodyText = await response.text();
+
+        // Try to parse the body as JSON
+        let data;
+        try {
+          data = JSON.parse(bodyText);
+        } catch (jsonError) {
+          // If JSON parsing fails, use the raw text
+          if (response.ok) {
+            Swal.fire({
+              text: "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني",
+              icon: "success",
+            });
+            forgotPasswordForm.style.display = "none";
+            loginForm.style.display = "block";
+          } else {
+            // If status is not OK, treat the text as an error message
+            Swal.fire({
+              icon: "error",
+              title: "خطأ",
+              text: bodyText || "خطأ في إرسال الطلب، تحقق من البريد الإلكتروني",
+            });
+          }
+          return; 
+        }
+
+        // If JSON parsing succeeded, handle the response as before
+        if (response.ok) {
+          Swal.fire({
+            text:
+              data.message ||
+              "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني",
+            icon: "success",
+          });
+          forgotPasswordForm.style.display = "none";
+          loginForm.style.display = "block";
+        } else {
+          let errorMessage =
+            data.message || "خطأ في إرسال الطلب، تحقق من البريد الإلكتروني";
+          if (data.errors) {
+            errorMessage +=
+              "\nتفاصيل الأخطاء:\n" + Object.values(data.errors).join("\n");
+          }
+          Swal.fire({
+            icon: "error",
+            title: "خطأ",
+            text: errorMessage,
+          });
+        }
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "خطأ",
+          text: "حدث خطأ، حاول مرة أخرى",
+        });
+        console.error("Error:", error);
+      }
+    });
 }

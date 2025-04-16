@@ -63,7 +63,7 @@
         <section class="login-register">
           <div class="container" id="container">
             <div class="form-container sign-in">
-              <form>
+              <form id="login-form">
                 <h2>تسجيل الدخول</h2>
                 <ul class="social">
                   <li>
@@ -89,16 +89,48 @@
                 </ul>
                 <p>أو أستخدم البريد الألكتروني للتسجيل</p>
 
-                <input type="email" placeholder="البريد الألكتروني *" />
-                <input type="password" placeholder="كلمه المرور *" />
+                <input
+                  type="email"
+                  id="login-email"
+                  placeholder="البريد الألكتروني *"
+                  required
+                />
+                <input
+                  type="password"
+                  id="login-password"
+                  placeholder="كلمه المرور *"
+                  required
+                />
 
-                <a href="#" class="forget">هل نسيت كلمه السر .؟</a>
-                <button class="create">تسجيل الدخول</button>
+                <a href="#" class="forget" id="forgot-password-link"
+                  >هل نسيت كلمه السر .؟</a
+                >
+                <button type="submit" class="create">تسجيل الدخول</button>
+              </form>
+            </div>
+
+            <!-- Forgot Password Form -->
+            <div
+              class="form-container forgot-password"
+              id="forgot-password-form"
+              style="display: none"
+            >
+              <form id="reset-password-form">
+                <h2>إعادة تعيين كلمة المرور</h2>
+                <p>أدخل بريدك الإلكتروني لتلقي رابط إعادة التعيين</p>
+                <input
+                  type="email"
+                  id="reset-email"
+                  placeholder="البريد الألكتروني *"
+                  required
+                />
+                <button type="submit" class="create">إرسال</button>
+                <a href="#" id="back-to-login">العودة إلى تسجيل الدخول</a>
               </form>
             </div>
 
             <div class="form-container sign-up">
-              <form>
+              <form id="register-form">
                 <h2>إنشاء حساب</h2>
                 <ul class="social">
                   <li>
@@ -124,12 +156,29 @@
                 </ul>
                 <p>أو أستخدم البريد الألكتروني للتسجيل</p>
 
-                <input type="text" placeholder="الأسم رباعي *" />
-                <input type="email" placeholder="البريد الألكتروني *" />
-                <input type="password" placeholder="كلمه المرور *" />
+                <input
+                  type="text"
+                  id="register-name"
+                  placeholder="الأسم رباعي *"
+                  required
+                />
+                <input
+                  type="email"
+                  id="register-email"
+                  placeholder="البريد الألكتروني *"
+                  required
+                />
+                <input
+                  type="password"
+                  id="register-password"
+                  placeholder="كلمه المرور *"
+                  required
+                />
 
-                <a href="#" class="forget">هل نسيت كلمه السر .؟</a>
-                <button class="create">إنشاء الحساب</button>
+                <a href="#" class="forget" id="forgot-password-link-signup"
+                  >هل نسيت كلمه السر .؟</a
+                >
+                <button type="submit" class="create">إنشاء الحساب</button>
               </form>
             </div>
 
@@ -242,5 +291,7 @@
     <script>
       new WOW().init();
     </script>
+    <!-- Sweet Alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </body>
 </html>

@@ -145,7 +145,7 @@ html {
   .header .overlay {
     height: 123vh;
   }
-  #menu-toggle.rotate{
+  #menu-toggle.rotate {
     transform: rotate(180deg);
   }
 }
@@ -156,7 +156,6 @@ html {
   .header .overlay {
     height: 133vh;
   }
-
 }
 
 @media (min-width: 992px) {
@@ -966,6 +965,7 @@ html {
 
 /* ---------------------------- Register & Login------------------------------  */
 
+
 .login-register {
   padding-top: 30px;
   padding-bottom: 70px;
@@ -1143,7 +1143,7 @@ html {
   height: 100%;
 }
 .login-register .container .form-container form h2 {
-  font-size: 35px;
+  font-size: 30px;
   font-weight: bold;
   color: var(--fontColor);
   margin-bottom: 20px;
@@ -1192,6 +1192,68 @@ html {
   background-color: var(--background-color);
 }
 
+/* Forgot Password Form */
+.form-container.forgot-password {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+  opacity: 1;
+  background: #fff;
+  padding: 20px;
+  transition: all 0.6s ease-in-out;
+}
+
+.container.active .forgot-password {
+  transform: translateX(100%);
+}
+
+.form-container.forgot-password h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: var(--fontColor);
+}
+
+.form-container.forgot-password p {
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #666;
+}
+
+.form-container.forgot-password input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.form-container.forgot-password button {
+  width: 100%;
+  padding: 10px;
+  background: var(--fontColor);
+  color: var(--background-color);
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.form-container.forgot-password button:hover {
+  background: #0056b3;
+}
+
+.form-container.forgot-password a {
+  display: block;
+  margin-top: 15px;
+  color: var(--fontColor);
+  text-decoration: none;
+}
+
+.form-container.forgot-password a:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 991px) {
   .login-register .container .social {
     gap: 5px;
@@ -1217,6 +1279,36 @@ html {
     font-size: 18px;
     width: 40px;
     height: 40px;
+  }
+
+  .login-register .container {
+    width: 90%;
+  }
+
+  .form-container.sign-in,
+  .form-container.sign-up,
+  .form-container.forgot-password {
+    width: 100%;
+    left: 0;
+  }
+
+  .container.active .sign-in,
+  .container.active .sign-up,
+  .container.active .forgot-password {
+    transform: translateX(0);
+  }
+
+  .sign-up {
+    opacity: 1;
+    z-index: 1;
+  }
+
+  .container.active .sign-up {
+    z-index: 5;
+  }
+
+  .toggle-container {
+    display: none;
   }
 }
 

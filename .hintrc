@@ -6,7 +6,8 @@
     "axe/name-role-value": [
       "default",
       {
-        "button-name": "off"
+        "button-name": "off",
+        "link-name": "off"
       }
     ],
     "button-type": "off",
@@ -29,6 +30,7 @@
       }
     ],
     "detect-css-reflows/composite": "off",
-    "detect-css-reflows/paint": "off"
+    "detect-css-reflows/paint": "off",
+    "no-inline-styles": "off"
   }
 }
