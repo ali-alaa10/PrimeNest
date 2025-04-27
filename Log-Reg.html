@@ -102,10 +102,16 @@
                   required
                 />
 
-                <a href="#" class="forget" id="forgot-password-link"
+                <a href="ChangePassword.html" class="forget" id="forgot-password-link"
                   >هل نسيت كلمه السر .؟</a
                 >
                 <button type="submit" class="create">تسجيل الدخول</button>
+                <button
+                  class="btn btn-register-mobile d-block d-md-none"
+                  id="mobile-register-toggle"
+                >
+                  إنشاء حساب
+                </button>
               </form>
             </div>
 
@@ -293,5 +299,13 @@
     </script>
     <!-- Sweet Alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+      document
+        .getElementById("mobile-register-toggle")
+        .addEventListener("click", function () {
+          document.getElementById("container").classList.add("active");
+        });
+    </script>
   </body>
 </html>

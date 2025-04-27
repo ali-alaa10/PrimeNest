@@ -192,7 +192,6 @@ if (document.body.id === "home") {
 }
 
 // API
-
 const API_BASE_URL = "https://primenest.azurewebsites.net/api";
 
 // Register & Login
@@ -338,7 +337,26 @@ if (document.body.id === "log-reg") {
       e.preventDefault();
       const email = document.getElementById("reset-email").value;
 
+      // Validate email format
+      if (!email.includes("@") || !email.includes(".")) {
+        Swal.fire({
+          icon: "error",
+          title: "خطأ",
+          text: "الرجاء إدخال بريد إلكتروني صالح",
+        });
+        return;
+      }
+
       try {
+        // Show loading indicator
+        Swal.fire({
+          title: "جاري الإرسال...",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+
         const response = await fetch(
           `${API_BASE_URL}/Authenticate/ForgetPassword`,
           {
@@ -358,12 +376,18 @@ if (document.body.id === "log-reg") {
         } catch (jsonError) {
           // If JSON parsing fails, use the raw text
           if (response.ok) {
+            // If status is 2xx (success), treat the text as a success message or token
+            localStorage.setItem("resetToken", bodyText); // Save the reset token
             Swal.fire({
               text: "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني",
               icon: "success",
             });
             forgotPasswordForm.style.display = "none";
             loginForm.style.display = "block";
+            // Optionally redirect to ChangePassword.html
+            setTimeout(() => {
+              window.location.href = "ChangePassword.html";
+            }, 1500);
           } else {
             // If status is not OK, treat the text as an error message
             Swal.fire({
@@ -372,11 +396,12 @@ if (document.body.id === "log-reg") {
               text: bodyText || "خطأ في إرسال الطلب، تحقق من البريد الإلكتروني",
             });
           }
-          return; 
+          return;
         }
 
         // If JSON parsing succeeded, handle the response as before
         if (response.ok) {
+          localStorage.setItem("resetToken", bodyText); // Save the reset token if it's text
           Swal.fire({
             text:
               data.message ||
@@ -385,6 +410,10 @@ if (document.body.id === "log-reg") {
           });
           forgotPasswordForm.style.display = "none";
           loginForm.style.display = "block";
+          // Optionally redirect to ChangePassword.html
+          setTimeout(() => {
+            window.location.href = "ChangePassword.html";
+          }, 1500);
         } else {
           let errorMessage =
             data.message || "خطأ في إرسال الطلب، تحقق من البريد الإلكتروني";
@@ -407,4 +436,200 @@ if (document.body.id === "log-reg") {
         console.error("Error:", error);
       }
     });
+}
+
+// Change Password
+if (document.body.id === "change-password") {
+  console.log("Change Password page detected");
+  const changePasswordForm = document.getElementById("change-password-form");
+  const backToLogin = document.getElementById("back-to-login");
+
+  const toggles = document.querySelectorAll(".toggle-password");
+
+  document.addEventListener("click", function (event) {
+    if (event.target && event.target.classList.contains("toggle-password")) {
+      let toggle = event.target;
+      const targetId = toggle.getAttribute("data-target");
+      const input = document.getElementById(targetId);
+      if (input) {
+        if (input.type === "password") {
+          input.type = "text";
+          toggle.classList.remove("fa-eye");
+          toggle.classList.add("fa-eye-slash");
+        } else {
+          input.type = "password";
+          toggle.classList.remove("fa-eye-slash");
+          toggle.classList.add("fa-eye");
+        }
+      } else {
+        console.error("Target input not found for ID:", targetId);
+      }
+    }
+  });
+
+  // Back to login
+  if (backToLogin) {
+    console.log("Back to login link found");
+    backToLogin.addEventListener("click", (e) => {
+      e.preventDefault();
+      console.log("Back to login clicked, redirecting to Log-Reg.html");
+      window.location.href = "Log-Reg.html";
+    });
+  } else {
+    console.error("Back to login link not found");
+  }
+
+  // Handle change password form submission
+  if (changePasswordForm) {
+    console.log("Change password form found");
+    changePasswordForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      console.log("Change password form submitted");
+
+      const newPassword = document.getElementById("new-password").value;
+      const confirmNewPassword = document.getElementById(
+        "confirm-new-password"
+      ).value;
+      console.log("New Password:", newPassword);
+      console.log("Confirm New Password:", confirmNewPassword);
+
+      // Validate passwords match
+      if (newPassword !== confirmNewPassword) {
+        console.log("Passwords do not match");
+        Swal.fire({
+          icon: "error",
+          title: "خطأ",
+          text: "كلمة المرور الجديدة وتأكيدها غير متطابقتين",
+        });
+        return;
+      }
+
+      // Validate password strength
+      if (newPassword.length < 8 || !/\d/.test(newPassword)) {
+        console.log("Password does not meet strength requirements");
+        Swal.fire({
+          icon: "error",
+          title: "خطأ",
+          text: "كلمة المرور يجب أن تكون 8 حروف على الأقل وتحتوي على أرقام",
+        });
+        return;
+      }
+
+      // Check if reset token exists (try URL first, then localStorage)
+      const urlParams = new URLSearchParams(window.location.search);
+      const resetToken =
+        urlParams.get("token") || localStorage.getItem("resetToken");
+      console.log("Reset Token:", resetToken);
+
+      if (!resetToken) {
+        console.log("Reset token not found");
+        Swal.fire({
+          icon: "error",
+          title: "خطأ",
+          text: "رمز إعادة التعيين غير موجود، حاول مرة أخرى من البداية",
+        });
+        setTimeout(() => {
+          window.location.href = "Log-Reg.html";
+        }, 1500);
+        return;
+      }
+
+      // Prepare form data
+      const formData = new FormData();
+      formData.append("NewPassword", newPassword); // Match API expected field name
+      formData.append("ConfirmedNewPassword", confirmNewPassword); // Match API expected field name
+      console.log("Form Data prepared:", formData);
+
+      try {
+        // Show loading indicator
+        Swal.fire({
+          title: "جاري الإرسال...",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+
+        console.log(
+          "Sending request to:",
+          `${API_BASE_URL}/Authenticate/ChangePassword/${resetToken}`
+        );
+        const response = await fetch(
+          `${API_BASE_URL}/Authenticate/ChangePassword/${resetToken}`,
+          {
+            method: "POST",
+            body: formData, // Send as multipart/form-data
+          }
+        );
+
+        console.log("Response status:", response.status);
+        // Read the response body as text
+        const bodyText = await response.text();
+        console.log("Response body:", bodyText);
+
+        // Try to parse the body as JSON
+        let data;
+        try {
+          data = JSON.parse(bodyText);
+        } catch (jsonError) {
+          console.error("JSON parsing error:", jsonError);
+          // If JSON parsing fails, use the raw text
+          if (response.ok) {
+            // If status is 2xx (success)
+            Swal.fire({
+              text: "تم تغيير كلمة المرور بنجاح، سجل الدخول الآن",
+              icon: "success",
+            });
+            localStorage.removeItem("resetToken"); // Clear the token
+            setTimeout(() => {
+              window.location.href = "Log-Reg.html";
+            }, 1500);
+          } else {
+            // If status is not OK, treat the text as an error message
+            Swal.fire({
+              icon: "error",
+              title: "خطأ",
+              text: bodyText || "خطأ في تغيير كلمة المرور، حاول مرة أخرى",
+            });
+          }
+          return;
+        }
+
+        // If JSON parsing succeeded
+        if (response.ok) {
+          console.log("Password changed successfully");
+          Swal.fire({
+            text: data.message || "تم تغيير كلمة المرور بنجاح، سجل الدخول الآن",
+            icon: "success",
+          });
+          localStorage.removeItem("resetToken"); // Clear the token
+          setTimeout(() => {
+            window.location.href = "Log-Reg.html";
+          }, 1500);
+        } else {
+          console.log("Error changing password:", data.message);
+          let errorMessage =
+            data.message || "خطأ في تغيير كلمة المرور، حاول مرة أخرى";
+          if (data.errors) {
+            errorMessage +=
+              "\nتفاصيل الأخطاء:\n" + Object.values(data.errors).join("\n");
+          }
+          Swal.fire({
+            icon: "error",
+            title: "خطأ",
+            text: errorMessage,
+          });
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+        Swal.fire({
+          icon: "error",
+          title: "خطأ",
+          text: "حدث خطأ، حاول مرة أخرى",
+        });
+      }
+    });
+  } else {
+    console.error("Change password form not found");
+  }
 }
